@@ -1,49 +1,70 @@
-# Surge Native Gateway Dashboard for Grafana
+# Surge 网关监控 Grafana 仪表板
 
-A Grafana dashboard for the official Surge Prometheus endpoint (`/v1/metrics`).
-It uses no custom collector, database, API key, or device-request scraper.
+一个基于 Surge 官方 Prometheus 指标 `/v1/metrics` 的 Grafana 网关监控仪表板。
 
-## Included metrics
+![Surge 网关监控预览](./Surge-Grafana-Dashboard-preview.png)
 
-- Gateway uptime and build information
-- Prometheus scrape status
-- Current download/upload bandwidth
-- Download/upload usage for the selected time range
-- Top 10 policy traffic rankings
-- Per-policy bandwidth trend: download above zero, upload below zero
-- Active requests, engine memory, DNS cache entries, and active unauthorized bans
+> 上图是静态预览图，用于展示布局和配色；导入 Grafana 后会显示你自己的实时 Prometheus 数据。它不是 Grafana 外部共享链接，也不会暴露任何监控数据。
 
-## Requirements
+## 包含内容
 
-1. Surge exposes `/v1/metrics` and Prometheus can scrape it.
-2. Grafana has a Prometheus data source named `Prometheus` (or map the data source during import).
-3. The Surge target exposes the labels used by the dashboard: `job`, `instance`, `interface`, and `policy`.
+- 运行时间、Surge 版本、Prometheus 采集状态
+- 实时下载/上传带宽：数字与曲线保持在同一面板
+- 所选时段的下载/上传用量
+- 出口下载/上传 Top 10 排行
+- 各策略带宽趋势：零线上方为下载，零线下方为上传
+- 同一节点的上传和下载使用同一种颜色
+- 进行中请求、引擎内存、DNS 缓存、未授权封禁
 
-Example Prometheus scrape configuration:
+## 使用前提
+
+1. Surge 已开放 `/v1/metrics`，并且 Prometheus 能够正常采集。
+2. Grafana 中有一个名为 `Prometheus` 的数据源；导入时也可以在 Grafana 的数据源映射步骤中选择实际的数据源。
+3. Surge 指标包含 `job`、`instance`、`interface` 和 `policy` 标签。
+
+Prometheus 示例配置：
 
 ```yaml
 scrape_configs:
   - job_name: surge
     metrics_path: /v1/metrics
-    # If your Surge HTTP API requires a key, configure it locally. Do not commit it.
+    # 如果 Surge HTTP API 要求密钥，只在本地配置，不要提交到 GitHub。
     # params:
     #   x-key: ["YOUR_LOCAL_SURGE_API_KEY"]
     static_configs:
       - targets: ["SURGE_HOST:API_PORT"]
 ```
 
-## Import
+## 导入方法
 
-Import `Surge-Grafana-Dashboard.json` in Grafana. During import, select your Prometheus data source if Grafana asks for a data-source mapping. After import, select the `Surge 实例` and `网络接口` variables at the top.
+1. 下载 [`Surge-Grafana-Dashboard.json`](./Surge-Grafana-Dashboard.json)。
+2. 在 Grafana 中进入 **仪表板 → 导入**，上传该 JSON 文件。
+3. 如果 Grafana 要求选择数据源，选择你的 Prometheus 数据源。
+4. 导入后，在顶部选择 `Surge 实例` 和 `网络接口`。
 
-The dashboard queries use a 5-minute `rate()` window because Surge scrapes are commonly configured at about one-minute intervals.
+由于 Surge 通常按约一分钟的间隔采集，带宽速率使用最近 5 分钟的 `rate()` 计算，以避免采样点不足导致没有数据。
 
-## Color behavior
+## 颜色和方向
 
-In the policy trend panel, upload and download for each policy are explicitly assigned the same color; direction is conveyed by position relative to the zero line. The published file contains the currently known policy-name overrides and falls back to Grafana's classic palette for new policy names.
+策略趋势面板为已知策略名称绑定了颜色：同一策略的上传和下载使用同色；曲线位于零线上方或下方来表达方向。以后新增的策略会使用 Grafana 经典调色板，必要时可以在 Grafana 面板覆盖设置中补充颜色。
 
-## Scope and privacy
+## 隐私和范围
 
-This repository contains dashboard structure and PromQL only. It does not contain Prometheus data, credentials, API keys, or a shared Grafana link.
+本仓库只包含仪表板结构和 PromQL 查询，不包含：
 
-License: MIT.
+- Surge API 密钥
+- Prometheus 数据
+- Grafana 登录信息
+- 外部共享链接
+- 本地局域网地址
+
+## 文件说明
+
+- `Surge-Grafana-Dashboard.json`：可导入 Grafana 的仪表板配置
+- `Surge-Grafana-Dashboard-preview.png`：仪表板预览图
+- `preview.html`：生成预览图用的静态 HTML，可直接在浏览器打开
+- `LICENSE`：MIT 许可证
+
+## 许可证
+
+MIT License
