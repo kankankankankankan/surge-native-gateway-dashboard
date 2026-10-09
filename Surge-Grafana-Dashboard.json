@@ -1,0 +1,2866 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "surge-native-gateway-dashboard"
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "builtIn": true,
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {},
+            "version": "v0"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Crosshair",
+    "editable": true,
+    "elements": {
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_build_info{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "v{{version}}",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "版本与实例",
+          "id": 21,
+          "links": [],
+          "title": "Surge 网关",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "none",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "text"
+                  },
+                  "decimals": 2
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "none",
+                "graphMode": "none",
+                "textMode": "name",
+                "justifyMode": "left",
+                "text": {
+                  "titleSize": 14,
+                  "valueSize": 14
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-1": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "up{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "采集状态",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 1,
+          "links": [],
+          "title": "状态",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "none",
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0,
+                  "mappings": [
+                    {
+                      "type": "value",
+                      "options": {
+                        "0": {
+                          "text": "采集失败",
+                          "color": "red"
+                        },
+                        "1": {
+                          "text": "正常",
+                          "color": "green"
+                        }
+                      }
+                    }
+                  ],
+                  "displayName": "采集状态"
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "value",
+                "graphMode": "none",
+                "textMode": "value",
+                "text": {
+                  "titleSize": 10,
+                  "valueSize": 16
+                },
+                "justifyMode": "left"
+              }
+            }
+          }
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "(8 * (rate(surge_interface_in_bytes_total{job=\"surge\",interface=~\"$interface\",instance=~\"$instance\"}[5m]))) / 1000000",
+                        "legendFormat": "下载带宽",
+                        "instant": false,
+                        "range": true,
+                        "interval": "1m"
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "数字与曲线同一面板；最近 5 分钟平均带宽，Mbps。原生 Stat 的曲线与数字共享配色。",
+          "id": 7,
+          "links": [],
+          "title": "实时下载带宽",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "suffix: Mbps",
+                  "decimals": 2,
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "#8FBAFF"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "value",
+                "graphMode": "area",
+                "textMode": "value",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "wideLayout": true,
+                "text": {
+                  "valueSize": 64,
+                  "titleSize": 12
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "(8 * (rate(surge_interface_out_bytes_total{job=\"surge\",interface=~\"$interface\",instance=~\"$instance\"}[5m]))) / 1000000",
+                        "legendFormat": "上传带宽",
+                        "instant": false,
+                        "range": true,
+                        "interval": "1m"
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "数字与曲线同一面板；最近 5 分钟平均带宽，Mbps。原生 Stat 的曲线与数字共享配色。",
+          "id": 8,
+          "links": [],
+          "title": "实时上传带宽",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "suffix: Mbps",
+                  "decimals": 2,
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "green"
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "value",
+                "graphMode": "area",
+                "textMode": "value",
+                "justifyMode": "auto",
+                "orientation": "auto",
+                "wideLayout": true,
+                "text": {
+                  "valueSize": 64,
+                  "titleSize": 12
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "increase(surge_interface_in_bytes_total{job=\"surge\",interface=~\"$interface\",instance=~\"$instance\"}[$__range])",
+                        "legendFormat": "{{interface}}",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Prometheus 根据计数器估算；不回补采集之前的数据。接口流量不等于设备用量，勿跨接口相加作为唯一总量。",
+          "id": 9,
+          "links": [],
+          "title": "下载用量 · 所选时段",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "blue"
+                  },
+                  "decimals": 2
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "left",
+                "text": {
+                  "valueSize": 25,
+                  "titleSize": 12
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "increase(surge_interface_out_bytes_total{job=\"surge\",interface=~\"$interface\",instance=~\"$instance\"}[$__range])",
+                        "legendFormat": "{{interface}}",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 10,
+          "links": [],
+          "title": "上传用量 · 所选时段",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "green"
+                  },
+                  "decimals": 2
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "textMode": "value",
+                "colorMode": "value",
+                "graphMode": "none",
+                "justifyMode": "left",
+                "text": {
+                  "valueSize": 25,
+                  "titleSize": 12
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "sort_desc(topk(10, sum by (policy) (increase(surge_policy_in_bytes_total{job=\"surge\",instance=~\"$instance\"}[$__range]))) > 0)",
+                        "legendFormat": "{{policy}}",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "按所选时间范围统计，排除零用量策略。",
+          "id": 11,
+          "links": [],
+          "title": "出口下载排行 · Top 10",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "bargauge",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "blue"
+                  },
+                  "decimals": 2
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "orientation": "horizontal",
+                "displayMode": "lcd",
+                "showUnfilled": false,
+                "minVizHeight": 16,
+                "maxVizHeight": 24,
+                "namePlacement": "left",
+                "text": {
+                  "titleSize": 12,
+                  "valueSize": 12
+                },
+                "valueMode": "text",
+                "sizing": "auto"
+              }
+            }
+          }
+        }
+      },
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "sort_desc(topk(10, sum by (policy) (increase(surge_policy_out_bytes_total{job=\"surge\",instance=~\"$instance\"}[$__range]))) > 0)",
+                        "legendFormat": "{{policy}}",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "按所选时间范围统计，排除零用量策略。",
+          "id": 12,
+          "links": [],
+          "title": "出口上传排行 · Top 10",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "bargauge",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "green"
+                  },
+                  "decimals": 2
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "orientation": "horizontal",
+                "displayMode": "lcd",
+                "showUnfilled": false,
+                "minVizHeight": 16,
+                "maxVizHeight": 24,
+                "namePlacement": "left",
+                "text": {
+                  "titleSize": 12,
+                  "valueSize": 12
+                },
+                "valueMode": "text",
+                "sizing": "auto"
+              }
+            }
+          }
+        }
+      },
+      "panel-13": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "(8 * rate(surge_policy_in_bytes_total{job=\"surge\",instance=~\"$instance\"}[5m])) / 1000000",
+                        "legendFormat": "{{policy}} · 下载",
+                        "instant": false,
+                        "range": true,
+                        "interval": "1m"
+                      }
+                    }
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "B",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "(8 * rate(surge_policy_out_bytes_total{job=\"surge\",instance=~\"$instance\"}[5m])) / 1000000",
+                        "legendFormat": "{{policy}} · 上传",
+                        "instant": false,
+                        "range": true,
+                        "interval": "1m"
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "下载绘于零线上方，上传仅在视觉上镜像到下方；原始值与图例仍为正数。此图是实际使用带宽，不是线路额定上限。",
+          "id": 13,
+          "links": [],
+          "title": "各策略带宽趋势 · 下载 / 上传",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "suffix: Mbps",
+                  "color": {
+                    "mode": "palette-classic-by-name"
+                  },
+                  "decimals": 2,
+                  "custom": {
+                    "drawStyle": "line",
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "fillOpacity": 5,
+                    "showPoints": "never",
+                    "spanNulls": false,
+                    "axisBorderShow": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "上方下载 / 下方上传",
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "stacking": {
+                      "mode": "none",
+                      "group": "A"
+                    },
+                    "hideFrom": {
+                      "tooltip": false,
+                      "viz": false,
+                      "legend": false
+                    },
+                    "axisPlacement": "auto",
+                    "axisWidth": 65,
+                    "axisCenteredZero": true
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "B"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.transform",
+                        "value": "negative-Y"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "DE-51-VM-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35454"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "DE-51-VM-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35454"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "DE-52-AT-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#547EE3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "DE-52-AT-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#547EE3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "DIRECT · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#A8E354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "DIRECT · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#A8E354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-46-VM-DN · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E354D1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-46-VM-DN · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E354D1"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-AK-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E3CB"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-AK-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E3CB"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-MI-DN · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E3A154"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-MI-DN · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E3A154"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-NU-DN · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#7854E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-NU-DN · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#7854E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-RF-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#5AE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-RF-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#5AE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-VO-DN · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35484"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-VO-DN · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35484"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-YX-DN · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54AEE3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-YX-DN · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54AEE3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-ZO-DN · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#D7E354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "HK-ZO-DN · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#D7E354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-36-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#C554E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-36-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#C554E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-37-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E39B"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-37-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E39B"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-38-HY2- · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E37254"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-38-HY2- · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E37254"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-39-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#5460E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-39-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#5460E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-47-VM-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#8AE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-47-VM-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#8AE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-AK-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E354B4"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-AK-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E354B4"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-RF-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54DEE3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "JP-RF-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54DEE3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-32-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E3BF54"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-32-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E3BF54"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-33-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#9554E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-33-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#9554E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-34-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E36B"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-34-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E36B"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-35-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35466"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-35-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35466"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-48-VM-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#5490E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "SG-48-VM-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#5490E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "TW-40-HY2- · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#BAE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "TW-40-HY2- · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#BAE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "TW-49-VM-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E354E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "TW-49-VM-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E354E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "TW-NN-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E3B9"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "TW-NN-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E3B9"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-41-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E38F54"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-41-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E38F54"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-42-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#6554E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-42-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#6554E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-43-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#6CE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-43-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#6CE354"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-44-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35496"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-44-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E35496"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-45-HY2-A · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54C0E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-45-HY2-A · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54C0E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-50-VM-NA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E3DD54"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-50-VM-NA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#E3DD54"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-NUBE-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#B354E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-NUBE-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#B354E3"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-家宽-DNA · 下载"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E389"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "US-家宽-DNA · 上传"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#54E389"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "legend": {
+                  "calcs": [
+                    "lastNotNull",
+                    "max"
+                  ],
+                  "displayMode": "table",
+                  "placement": "right",
+                  "showLegend": true,
+                  "width": 340
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc",
+                  "hideZeros": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "floor(surge_uptime_seconds{job=\"surge\",instance=~\"$instance\"} / 3600)",
+                        "legendFormat": "小时",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "B",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "floor((surge_uptime_seconds{job=\"surge\",instance=~\"$instance\"} % 3600) / 60)",
+                        "legendFormat": "分钟",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "只显示小时和分钟，不显示秒。",
+          "id": 2,
+          "links": [],
+          "title": "运行时间",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "A"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "suffix: 时"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byFrameRefID",
+                      "options": "B"
+                    },
+                    "properties": [
+                      {
+                        "id": "unit",
+                        "value": "suffix: 分"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "none",
+                "graphMode": "none",
+                "textMode": "value",
+                "text": {
+                  "titleSize": 12,
+                  "valueSize": 22
+                },
+                "justifyMode": "left",
+                "orientation": "horizontal",
+                "wideLayout": true
+              }
+            }
+          }
+        }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_active_requests{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "进行中请求",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 3,
+          "links": [],
+          "title": "进行中请求",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0,
+                  "displayName": "进行中请求"
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "none",
+                "graphMode": "none",
+                "textMode": "value",
+                "text": {
+                  "titleSize": 10,
+                  "valueSize": 16
+                },
+                "justifyMode": "left"
+              }
+            }
+          }
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_memory_bytes{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "引擎内存",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 4,
+          "links": [],
+          "title": "引擎内存",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0,
+                  "displayName": "引擎内存"
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "none",
+                "graphMode": "none",
+                "textMode": "value",
+                "text": {
+                  "titleSize": 10,
+                  "valueSize": 16
+                },
+                "justifyMode": "left"
+              }
+            }
+          }
+        }
+      },
+      "panel-5": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_dns_cache_entries{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "DNS 缓存条目",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 5,
+          "links": [],
+          "title": "DNS 缓存",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "decimals": 0,
+                  "displayName": "DNS 缓存条目"
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "none",
+                "graphMode": "none",
+                "textMode": "value",
+                "text": {
+                  "titleSize": 10,
+                  "valueSize": 16
+                },
+                "justifyMode": "left"
+              }
+            }
+          }
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_active_bans{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "未授权访问封禁",
+                        "instant": true,
+                        "range": false
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "官方原生指标：active_bans。0=安全；1=警告；2=高警告；3 及以上=严重。Surge 原生指标未提供普通规则拦截次数。",
+          "id": 6,
+          "links": [],
+          "title": "未授权封禁",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "stat",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "color": {
+                    "mode": "thresholds"
+                  },
+                  "decimals": 0,
+                  "displayName": "未授权访问封禁",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 1
+                      },
+                      {
+                        "color": "red",
+                        "value": 2
+                      },
+                      {
+                        "color": "dark-red",
+                        "value": 3
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                },
+                "colorMode": "value",
+                "graphMode": "none",
+                "textMode": "value",
+                "text": {
+                  "titleSize": 10,
+                  "valueSize": 15
+                },
+                "justifyMode": "left"
+              }
+            }
+          }
+        }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_active_requests{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "进行中请求",
+                        "instant": false,
+                        "range": true
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 17,
+          "links": [],
+          "title": "请求数趋势",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "blue"
+                  },
+                  "decimals": 0,
+                  "displayName": "进行中请求",
+                  "custom": {
+                    "drawStyle": "line",
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "fillOpacity": 8,
+                    "showPoints": "never",
+                    "spanNulls": false,
+                    "axisBorderShow": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "stacking": {
+                      "mode": "none",
+                      "group": "A"
+                    },
+                    "hideFrom": {
+                      "tooltip": false,
+                      "viz": false,
+                      "legend": false
+                    },
+                    "axisPlacement": "auto",
+                    "axisWidth": 65
+                  },
+                  "min": 0
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "calcs": [],
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc",
+                  "hideZeros": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_memory_bytes{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "引擎内存",
+                        "instant": false,
+                        "range": true
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 18,
+          "links": [],
+          "title": "内存趋势",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "bytes",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "purple"
+                  },
+                  "decimals": 2,
+                  "displayName": "引擎内存",
+                  "custom": {
+                    "drawStyle": "line",
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "fillOpacity": 8,
+                    "showPoints": "never",
+                    "spanNulls": false,
+                    "axisBorderShow": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "stacking": {
+                      "mode": "none",
+                      "group": "A"
+                    },
+                    "hideFrom": {
+                      "tooltip": false,
+                      "viz": false,
+                      "legend": false
+                    },
+                    "axisPlacement": "auto",
+                    "axisWidth": 65
+                  },
+                  "min": 0
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "calcs": [],
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc",
+                  "hideZeros": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "Prometheus"
+                      },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "expr": "surge_dns_cache_entries{job=\"surge\",instance=~\"$instance\"}",
+                        "legendFormat": "DNS 缓存条目",
+                        "instant": false,
+                        "range": true
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 19,
+          "links": [],
+          "title": "DNS 缓存趋势",
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.2.3",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "short",
+                  "color": {
+                    "mode": "fixed",
+                    "fixedColor": "cyan"
+                  },
+                  "decimals": 0,
+                  "displayName": "DNS 缓存条目",
+                  "custom": {
+                    "drawStyle": "line",
+                    "lineInterpolation": "linear",
+                    "lineWidth": 2,
+                    "fillOpacity": 8,
+                    "showPoints": "never",
+                    "spanNulls": false,
+                    "axisBorderShow": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "stacking": {
+                      "mode": "none",
+                      "group": "A"
+                    },
+                    "hideFrom": {
+                      "tooltip": false,
+                      "viz": false,
+                      "legend": false
+                    },
+                    "axisPlacement": "auto",
+                    "axisWidth": 65
+                  },
+                  "min": 0
+                },
+                "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "calcs": [],
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc",
+                  "hideZeros": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "GridLayout",
+      "spec": {
+        "items": [
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-2"
+              },
+              "x": 0,
+              "y": 0,
+              "width": 4,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-1"
+              },
+              "x": 4,
+              "y": 0,
+              "width": 3,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-3"
+              },
+              "x": 7,
+              "y": 0,
+              "width": 3,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-4"
+              },
+              "x": 10,
+              "y": 0,
+              "width": 3,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-5"
+              },
+              "x": 13,
+              "y": 0,
+              "width": 3,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-6"
+              },
+              "x": 16,
+              "y": 0,
+              "width": 4,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-21"
+              },
+              "x": 20,
+              "y": 0,
+              "width": 4,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-7"
+              },
+              "x": 0,
+              "y": 3,
+              "width": 12,
+              "height": 7
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-8"
+              },
+              "x": 12,
+              "y": 3,
+              "width": 12,
+              "height": 7
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-9"
+              },
+              "x": 0,
+              "y": 10,
+              "width": 12,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-10"
+              },
+              "x": 12,
+              "y": 10,
+              "width": 12,
+              "height": 3
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-11"
+              },
+              "x": 0,
+              "y": 13,
+              "width": 12,
+              "height": 9
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-12"
+              },
+              "x": 12,
+              "y": 13,
+              "width": 12,
+              "height": 9
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-13"
+              },
+              "x": 0,
+              "y": 22,
+              "width": 24,
+              "height": 13
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-17"
+              },
+              "x": 0,
+              "y": 35,
+              "width": 8,
+              "height": 7
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-18"
+              },
+              "x": 8,
+              "y": 35,
+              "width": 8,
+              "height": 7
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-19"
+              },
+              "x": 16,
+              "y": 35,
+              "width": 8,
+              "height": 7
+            }
+          }
+        ]
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "tags": [
+      "Surge",
+      "网关",
+      "原生指标"
+    ],
+    "timeSettings": {
+      "autoRefresh": "30s",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-1h",
+      "hideTimepicker": false,
+      "timezone": "browser",
+      "to": "now"
+    },
+    "title": "Surge 网关监控 · 官方原生指标",
+    "variables": [
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "definition": "label_values(surge_build_info{job=\"surge\"}, instance)",
+          "hide": "dontHide",
+          "includeAll": false,
+          "label": "Surge 实例",
+          "multi": false,
+          "name": "instance",
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "Prometheus"
+            },
+            "group": "prometheus",
+            "kind": "DataQuery",
+            "spec": {
+              "query": "label_values(surge_build_info{job=\"surge\"}, instance)",
+              "refId": "instance"
+            },
+            "version": "v0"
+          },
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "alphabeticalAsc"
+        }
+      },
+      {
+        "kind": "QueryVariable",
+        "spec": {
+          "allowCustomValue": true,
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "definition": "label_values(surge_interface_in_bytes_total{job=\"surge\",instance=~\"$instance\"}, interface)",
+          "hide": "dontHide",
+          "includeAll": false,
+          "label": "网络接口",
+          "multi": false,
+          "name": "interface",
+          "options": [],
+          "query": {
+            "datasource": {
+              "name": "Prometheus"
+            },
+            "group": "prometheus",
+            "kind": "DataQuery",
+            "spec": {
+              "query": "label_values(surge_interface_in_bytes_total{job=\"surge\",instance=~\"$instance\"}, interface)",
+              "refId": "interface"
+            },
+            "version": "v0"
+          },
+          "refresh": "onDashboardLoad",
+          "regex": "",
+          "regexApplyTo": "value",
+          "skipUrlSync": false,
+          "sort": "alphabeticalAsc"
+        }
+      }
+    ]
+  }
+}
